@@ -40,6 +40,7 @@ public class Unpacker {
                 }
 
                 i += number.length();
+
             }
 
             switch (ch) {

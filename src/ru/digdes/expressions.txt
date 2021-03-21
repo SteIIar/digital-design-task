@@ -1,0 +1,15 @@
+2[a]b
+2[x]
+2[ab]
+2[ab]2[x]
+2[ab2[x]]
+word2[ab2[x]]g
+ShouldBeWrong[2]
+ShouldBeWrong[2a]
+ShouldBeWrong[f2]
+ShouldBeWrong[]
+ShouldBeWrong[2]]
+ShouldBeWrong[[[2]]
+ShouldBeWrong[a2[b]2]
+ShouldBeWrong_2[a]
+5[a]3[5[b]]

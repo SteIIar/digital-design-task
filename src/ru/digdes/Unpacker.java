@@ -1,4 +1,4 @@
-package com.company;
+package ru.digdes;
 
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -20,21 +20,24 @@ public class Unpacker {
     }
 
     public static boolean isValid(String expression) {
-        //проверка на литинские буквы, цифры и квадратные скобки
-        Pattern pattern = Pattern.compile("^[\\d\\w\\[\\]]+$");
+
+        Pattern pattern = Pattern.compile("^[\\d[a-zA-Z]\\[\\]]+$");
         Matcher matcher = pattern.matcher(expression);
         if (!matcher.find()) {
             return false;
         }
 
         Stack<Character> stack = new Stack<>();
+
         for (int i = 0; i < expression.length(); i++) {
 
             char ch = expression.charAt(i);
 
             if (Character.isDigit(ch)) {
+
                 String number = String.valueOf(readNumber(expression.substring(i)));
                 char charAfterNumber = expression.charAt(i + number.length());
+
                 if (!isOpenBracket(charAfterNumber)) {
                     return false;
                 }
@@ -53,6 +56,8 @@ public class Unpacker {
                     if (!stack.isEmpty()) {
                         char chx = stack.pop();
                         if (chx != ch)
+                            return false;
+                        if (!Character.isLetter(expression.charAt(i-1)))
                             return false;
                     }
                     break;

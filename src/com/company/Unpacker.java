@@ -13,28 +13,28 @@ public class Unpacker {
         if (!isValid(expression))
             return null;
 
+        str = expression;
         index = 0;
 
-        return analyze().toString();
+        return unpack().toString();
     }
 
     public static boolean isValid(String expression) {
-        str = expression;
         //проверка на литинские буквы, цифры и квадратные скобки
         Pattern pattern = Pattern.compile("^[\\d\\w\\[\\]]+$");
-        Matcher matcher = pattern.matcher(str);
+        Matcher matcher = pattern.matcher(expression);
         if (!matcher.find()) {
             return false;
         }
 
         Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < str.length(); i++) {
+        for (int i = 0; i < expression.length(); i++) {
 
-            char ch = str.charAt(i);
+            char ch = expression.charAt(i);
 
             if (Character.isDigit(ch)) {
-                String number = String.valueOf(readNumber(i));
-                char charAfterNumber = str.charAt(i + number.length());
+                String number = String.valueOf(readNumber(expression.substring(i)));
+                char charAfterNumber = expression.charAt(i + number.length());
                 if (!isOpenBracket(charAfterNumber)) {
                     return false;
                 }
@@ -45,7 +45,7 @@ public class Unpacker {
 
             switch (ch) {
                 case '[' : stack.push(ch);
-                    if (!Character.isDigit(str.charAt(i-1)))
+                    if (!Character.isDigit(expression.charAt(i-1)))
                         return false;
                     break;
 
@@ -68,7 +68,7 @@ public class Unpacker {
         return true;
     }
 
-    private static StringBuilder analyze() {
+    private static StringBuilder unpack() {
         StringBuilder result = new StringBuilder();
 
         while (index < str.length()) {
@@ -81,7 +81,7 @@ public class Unpacker {
                 if (isOpenBracket(str.charAt(index))) {
                     index++;
 
-                    StringBuilder sb = new StringBuilder(analyze());
+                    StringBuilder sb = new StringBuilder(unpack());
                     for (int i = 0; i < count; i++)
                         result.append(sb);
 
